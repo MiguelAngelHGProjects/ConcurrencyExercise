@@ -1,18 +1,19 @@
+#ifndef WRITER_H
 #define WRITER_H
 
+#include <QThread>
 #include "database.h"
-#include <QObject>
 
-class Writer : public QObject {
-    Q_OBJECT
-
+class Writer : public QThread {
 public:
-    Writer(Database& db, int id);
+    Writer(int id, Database& db);
 
-public slots:
-    void run();
+protected:
+    void run() override;
 
 private:
-    Database& db_;
     int id_;
+    Database& db_;
 };
+
+#endif // WRITER_H

@@ -1,8 +1,7 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include <mutex>
-#include <condition_variable>
+#include <QSemaphore>
 
 class Database {
 public:
@@ -12,12 +11,13 @@ public:
     void write(int id);
 
 private:
-    std::mutex mutex_;
-    std::condition_variable cvReaders_;
-    std::condition_variable cvWriters_;
-    int readers_ = 0;
-    int writers_ = 0;
-    bool writing_ = false;
+    QSemaphore freeReaders_;
+    QSemaphore freeWriters_;
+    QSemaphore mutex_;
+    QSemaphore waitingReaders_;
+    QSemaphore waitingWriters_;
+    int readers_;
+    int writers_;
 };
 
 #endif // DATABASE_H

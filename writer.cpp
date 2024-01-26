@@ -1,14 +1,13 @@
 #include "writer.h"
-#include <iostream>
-#include <chrono>
-#include <thread>
+#include <unistd.h>
 
-Writer::Writer(Database& db, int id) : db_(db), id_(id) {}
+Writer::Writer(int id, Database& db)
+    : id_(id), db_(db)
+{}
 
 void Writer::run() {
     for (int i = 0; i < 5; ++i) {
         db_.write(id_);
-        std::cout << "Writer " << id_ << " is writing..." << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        sleep(1);
     }
 }

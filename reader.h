@@ -1,18 +1,19 @@
+#ifndef READER_H
 #define READER_H
 
+#include <QThread>
 #include "database.h"
-#include <QObject>
 
-class Reader : public QObject {
-    Q_OBJECT
-
+class Reader : public QThread {
 public:
-    Reader(Database& db, int id);
+    Reader(int id, Database& db);
 
-public slots:
-    void run();
+protected:
+    void run() override;
 
 private:
-    Database& db_;
     int id_;
+    Database& db_;
 };
+
+#endif // READER_H
